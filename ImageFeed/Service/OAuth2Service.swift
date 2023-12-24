@@ -8,7 +8,7 @@
 import Foundation
 
 final class OAuth2Service {
-    fileprivate let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
+    private let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
     
     private enum NetworkError: Error {
         case codeError
@@ -44,10 +44,8 @@ final class OAuth2Service {
                 }
                 let decoder = JSONDecoder()
                 let authTokenResponse = try decoder.decode(OAuth2ResponceModel.self, from: data)
-                
                 completion(.success(authTokenResponse.access_token))
             } catch {
-                
                 completion(.failure(error))
             }
             

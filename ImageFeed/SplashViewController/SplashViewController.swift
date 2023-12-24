@@ -20,7 +20,6 @@ final class SplashViewController: UIViewController {
         if let token = oauth2TokenStorage.token {
             switchToTabBarController()
         } else {
-            // Show Auth Screen
             performSegue(withIdentifier: ShowAuthScreenSegueIdentifier, sender: nil)
         }
     }
@@ -69,13 +68,15 @@ extension SplashViewController: AuthViewControllerDelegate {
     private func fetchOAuthToken(_ code: String) {
         let oauth2Service = OAuth2Service()
         let token = OAuth2TokenStorage()
-        oauth2Service.fetchAuthToken(code: code) { result in
-            switch result {
-            case .success(let bearerToken):
-                token.token = bearerToken
-                self.switchToTabBarController()
-            case .failure(let error):
-                print("Error fetching Bearer Token: \(error)")
+        oauth2Service.fetchAuthToken(code: code) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let bearerToken):
+                    token.token = bearerToken
+                    self?.switchToTabBarController()
+                case .failure(let error):
+                    print("Error fetching Bearer Token: \(error)")
+                }
             }
         }
     }

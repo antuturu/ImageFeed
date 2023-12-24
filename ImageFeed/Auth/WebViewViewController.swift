@@ -15,7 +15,7 @@ protocol WebViewViewControllerDelegate {
 
 final class WebViewViewController: UIViewController {
     @IBOutlet private weak var webView: WKWebView!
-    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet private weak var progressView: UIProgressView!
     
     var delegate: WebViewViewControllerDelegate?
     
@@ -71,7 +71,7 @@ final class WebViewViewController: UIViewController {
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
-    @IBAction func didTapBackButton(_ sender: Any) {
+    @IBAction private func didTapBackButton(_ sender: Any) {
         delegate?.webViewViewControllerDidCancel(self)
     }
 }

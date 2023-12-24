@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="CEu-ra-EFx">
-                                <rect key="frame" x="0.0" y="59" width="393" height="793"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <color key="backgroundColor" name="YP Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImagesListCell" rowHeight="232" id="uQZ-oF-QFL" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
@@ -80,7 +80,7 @@
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="CEu-ra-EFx" secondAttribute="trailing" id="HxO-v7-WbA"/>
-                            <constraint firstItem="CEu-ra-EFx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="JTC-Be-X7x"/>
+                            <constraint firstAttribute="top" secondItem="CEu-ra-EFx" secondAttribute="top" id="JTC-Be-X7x"/>
                             <constraint firstItem="CEu-ra-EFx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Xnp-Yr-tO9"/>
                             <constraint firstAttribute="bottom" secondItem="CEu-ra-EFx" secondAttribute="bottom" id="Yll-vk-6bI"/>
                         </constraints>
@@ -218,7 +218,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoUnsplash" translatesAutoresizingMaskIntoConstraints="NO" id="Eqx-iL-C9h">
-                                <rect key="frame" x="166.66666666666666" y="280" width="60" height="134"/>
+                                <rect key="frame" x="166.66666666666666" y="418" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="IKO-4J-cPO"/>
                                     <constraint firstAttribute="width" constant="60" id="tvF-yc-uHU"/>
@@ -226,16 +226,16 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOX-vc-QzJ">
                                 <rect key="frame" x="16" y="714" width="361" height="48"/>
+                                <color key="backgroundColor" name="YP White"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="2cq-Kk-8M7"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="tintColor" name="YP White"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Войти">
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="17"/>
-                                    <color key="baseForegroundColor" name="YP Black"/>
-                                    <color key="baseBackgroundColor" name="YP White"/>
-                                </buttonConfiguration>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Войти">
+                                    <color key="titleColor" name="YP Black"/>
+                                </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="16"/>
@@ -252,10 +252,9 @@
                         <constraints>
                             <constraint firstItem="b6i-O5-AaC" firstAttribute="trailing" secondItem="dOX-vc-QzJ" secondAttribute="trailing" constant="16" id="3lO-d1-T0I"/>
                             <constraint firstItem="b6i-O5-AaC" firstAttribute="centerX" secondItem="Eqx-iL-C9h" secondAttribute="centerX" id="A8P-fI-HCQ"/>
-                            <constraint firstItem="dOX-vc-QzJ" firstAttribute="top" secondItem="Eqx-iL-C9h" secondAttribute="bottom" constant="300" id="F7T-bC-pds"/>
                             <constraint firstItem="dOX-vc-QzJ" firstAttribute="leading" secondItem="b6i-O5-AaC" secondAttribute="leading" constant="16" id="fJY-ed-6PB"/>
                             <constraint firstItem="b6i-O5-AaC" firstAttribute="bottom" secondItem="dOX-vc-QzJ" secondAttribute="bottom" constant="90" id="jxP-s2-wv2"/>
-                            <constraint firstItem="Eqx-iL-C9h" firstAttribute="top" secondItem="b6i-O5-AaC" secondAttribute="top" constant="236" id="vYb-ef-3tC"/>
+                            <constraint firstItem="Eqx-iL-C9h" firstAttribute="centerY" secondItem="b6i-O5-AaC" secondAttribute="centerY" id="vYb-ef-3tC"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8ZY-fx-1P0"/>
@@ -281,7 +280,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bD-JH-BvV">
-                                <rect key="frame" x="8" y="9" width="24" height="24"/>
+                                <rect key="frame" x="8" y="8" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="Cpl-VQ-JMB"/>
                                     <constraint firstAttribute="width" constant="24" id="k4C-KN-bNq"/>
@@ -292,8 +291,8 @@
                                     <action selector="didTapBackButton:" destination="nPD-iW-q16" eventType="touchUpInside" id="Wkb-Uy-yIZ"/>
                                 </connections>
                             </button>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YsA-IV-Ldz">
-                                <rect key="frame" x="0.0" y="41" width="393" height="4"/>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YsA-IV-Ldz">
+                                <rect key="frame" x="0.0" y="40" width="393" height="4"/>
                                 <color key="progressTintColor" name="YP Black"/>
                             </progressView>
                         </subviews>
@@ -302,7 +301,7 @@
                         <constraints>
                             <constraint firstItem="YsA-IV-Ldz" firstAttribute="leading" secondItem="6o4-5b-B10" secondAttribute="leading" id="0u0-Gd-uOD"/>
                             <constraint firstAttribute="trailing" secondItem="NaW-8S-2If" secondAttribute="trailing" id="EZm-uO-pKP"/>
-                            <constraint firstItem="5bD-JH-BvV" firstAttribute="top" secondItem="qfZ-w4-xYS" secondAttribute="top" constant="9" id="GOq-k8-mER"/>
+                            <constraint firstItem="5bD-JH-BvV" firstAttribute="top" secondItem="qfZ-w4-xYS" secondAttribute="top" constant="8" id="GOq-k8-mER"/>
                             <constraint firstItem="NaW-8S-2If" firstAttribute="top" secondItem="6o4-5b-B10" secondAttribute="topMargin" id="HOr-pK-Ps2"/>
                             <constraint firstAttribute="trailing" secondItem="YsA-IV-Ldz" secondAttribute="trailing" id="NH1-Nc-fMT"/>
                             <constraint firstItem="5bD-JH-BvV" firstAttribute="leading" secondItem="qfZ-w4-xYS" secondAttribute="leading" constant="8" id="Rt2-eD-fIm"/>

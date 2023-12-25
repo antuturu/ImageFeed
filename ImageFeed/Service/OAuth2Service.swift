@@ -8,7 +8,6 @@
 import Foundation
 
 final class OAuth2Service {
-    private let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
     
     private enum NetworkError: Error {
         case codeError
@@ -28,13 +27,17 @@ final class OAuth2Service {
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
             }
             
             if let response = response as? HTTPURLResponse,
                response.statusCode < 200 || response.statusCode >= 300 {
-                completion(.failure(NetworkError.codeError))
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkError.codeError))
+                }
                 return
             }
             
@@ -44,9 +47,13 @@ final class OAuth2Service {
                 }
                 let decoder = JSONDecoder()
                 let authTokenResponse = try decoder.decode(OAuth2ResponceModel.self, from: data)
-                completion(.success(authTokenResponse.access_token))
+                DispatchQueue.main.async {
+                    completion(.success(authTokenResponse.access_token))
+                }
             } catch {
-                completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
             
         }

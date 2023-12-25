@@ -18,14 +18,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vector_logo" translatesAutoresizingMaskIntoConstraints="NO" id="tE1-R2-DWI">
-                                <rect key="frame" x="160" y="388" width="73" height="76"/>
+                                <rect key="frame" x="160" y="400.66666666666669" width="73" height="76"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="tE1-R2-DWI" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="GLa-f6-2fV"/>
-                            <constraint firstItem="tE1-R2-DWI" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-12.5" id="r9d-QJ-gfO"/>
+                            <constraint firstItem="tE1-R2-DWI" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="r9d-QJ-gfO"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,7 +37,7 @@
     <resources>
         <image name="vector_logo" width="73" height="76"/>
         <namedColor name="YP Black">
-            <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

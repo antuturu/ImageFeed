@@ -8,12 +8,16 @@
 import Foundation
 
 final class OAuth2Service {
+    private let urlSession = URLSession.shared
     
-    private enum NetworkError: Error {
-        case codeError
-    }
+    private var task: URLSessionTask?
+    private var lastCode: String?
     
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
         var request = URLRequest(url: tokenURL)
         request.httpMethod = "POST"
         let parameters = [
@@ -25,39 +29,20 @@ final class OAuth2Service {
         
         request.httpBody = parameters.map { "\($0.key)=\($0.value)" }.joined(separator: "&").data(using: .utf8)
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuth2ResponceModel, Error>) in
+            switch result {
+            case .success(let tokenResults):
                 DispatchQueue.main.async {
-                    completion(.failure(error))
+                    completion(.success(tokenResults.access_token))
                 }
-                return
-            }
-            
-            if let response = response as? HTTPURLResponse,
-               response.statusCode < 200 || response.statusCode >= 300 {
-                DispatchQueue.main.async {
-                    completion(.failure(NetworkError.codeError))
-                }
-                return
-            }
-            
-            do {
-                guard let data = data else {
-                    return
-                }
-                let decoder = JSONDecoder()
-                let authTokenResponse = try decoder.decode(OAuth2ResponceModel.self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(authTokenResponse.access_token))
-                }
-            } catch {
+                print(tokenResults.access_token)
+            case .failure(let error):
                 DispatchQueue.main.async {
                     completion(.failure(error))
                 }
             }
-            
         }
-        
+        self.task = task
         task.resume()
     }
 }

@@ -14,3 +14,5 @@ let AccessScope = "public+read_user+write_likes"
 let DefaultBaseURL = URL(string: "https://api.unsplash.com")!
 let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
+let profileURL = URL(string: "https://api.unsplash.com/me")!
+

@@ -31,7 +31,7 @@ final class SplashViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidAppear(animated) 
         if let token = oauth2TokenStorage.token {
             fetchProfile(token: token)
         } else {
@@ -93,6 +93,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure(let error):
                 SplashViewController.codeError = error
                 print("Error fetching Bearer Token: \(error)")
+                UIBlockingProgressHUD.dismiss()
             }
             
         }

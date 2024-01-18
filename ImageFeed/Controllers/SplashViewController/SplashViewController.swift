@@ -32,10 +32,8 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         if let token = oauth2TokenStorage.token {
             fetchProfile(token: token)
-            switchToTabBarController()
         } else {
             showAuthenticationScreen()
         }
@@ -61,9 +59,7 @@ final class SplashViewController: UIViewController {
 extension SplashViewController {
     private func showAuthenticationScreen() {
         guard let authViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
-            print("wvrw")
             return
-            
         }
             authViewController.delegate = self
             authViewController.modalPresentationStyle = .fullScreen
@@ -75,12 +71,12 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        UIBlockingProgressHUD.show()
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
-            
-            self.fetchOAuthToken(code)
+            fetchOAuthToken(code)
         }
+        UIBlockingProgressHUD.show()
+        
     }
     
     private func fetchOAuthToken(_ code: String) {
@@ -98,7 +94,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 SplashViewController.codeError = error
                 print("Error fetching Bearer Token: \(error)")
             }
-            UIBlockingProgressHUD.dismiss()
+            
         }
     }
     
@@ -107,13 +103,12 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let profileResults):
                 ProfileImageService.shared.fetchProfileImageURL(username: profileResults.username) { _ in }
-                UIBlockingProgressHUD.dismiss()
                 self?.switchToTabBarController()
             case .failure(let error):
                 SplashViewController.codeError = error
                 print("Error fetching Profile: \(error)")
-                UIBlockingProgressHUD.dismiss()
             }
+            UIBlockingProgressHUD.dismiss()
         }
     }
 }

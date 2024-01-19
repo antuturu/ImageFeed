@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
+    
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -56,6 +59,36 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         configureSubviews()
         configureConstraints()
+        if let profile = ProfileService.profile {
+            updateProfileDetails(profile)
+        }
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.profileImage,
+            let url = URL(string: profileImageURL)
+        else { return }
+        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        imageView.kf.setImage(with: url, options: [.processor(processor)]) {result in
+            switch result {
+            case .success(let value):
+                self.imageView.image = value.image
+                
+            case .failure(_):
+                print("failure")
+            }
+        }
     }
     
     private func configureSubviews(){
@@ -64,9 +97,10 @@ final class ProfileViewController: UIViewController {
         view.addSubview(loginLabel)
         view.addSubview(aboutLabel)
         view.addSubview(button)
+        view.backgroundColor = UIColor(named: "YP Black")
     }
     
-    func configureConstraints(){
+    private func configureConstraints(){
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
@@ -82,4 +116,11 @@ final class ProfileViewController: UIViewController {
             aboutLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 8),
         ])
     }
+    
+    private func updateProfileDetails(_ profile: Profile){
+        nameLabel.text = profile.name
+        loginLabel.text = profile.loginName
+        aboutLabel.text = profile.bio
+    }
+    
 }

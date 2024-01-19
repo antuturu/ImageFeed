@@ -21,6 +21,7 @@
 		20A2F56A2B590BAB00ADE31E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 20A2F5692B590BAB00ADE31E /* Kingfisher */; };
 		20A2F56D2B59181E00ADE31E /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 20A2F56C2B59181E00ADE31E /* SwiftKeychainWrapper */; };
 		20A2F5702B5927B400ADE31E /* TabBarController.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A2F56F2B5927B400ADE31E /* TabBarController.swift.swift */; };
+		20A2F5732B5A6DE700ADE31E /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A2F5722B5A6DE700ADE31E /* ProfileModel.swift */; };
 		20C1FBCA2AF37FE200FD152E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C1FBC92AF37FE200FD152E /* AppDelegate.swift */; };
 		20C1FBCC2AF37FE200FD152E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C1FBCB2AF37FE200FD152E /* SceneDelegate.swift */; };
 		20C1FBCE2AF37FE200FD152E /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C1FBCD2AF37FE200FD152E /* ImagesListViewController.swift */; };
@@ -49,6 +50,7 @@
 		2060F0352B580FF2006529DD /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		2060F0372B58101C006529DD /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		20A2F56F2B5927B400ADE31E /* TabBarController.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift.swift; sourceTree = "<group>"; };
+		20A2F5722B5A6DE700ADE31E /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		20C1FBC62AF37FE200FD152E /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20C1FBC92AF37FE200FD152E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20C1FBCB2AF37FE200FD152E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				2039C8F82B4FE922005E8210 /* ProfileResultModel.swift */,
 				2039C8FC2B5582FE005E8210 /* ProfileImageModel.swift */,
 				2060F0372B58101C006529DD /* AlertModel.swift */,
+				20A2F5722B5A6DE700ADE31E /* ProfileModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				20D659662B29CD8500A81538 /* WebViewViewController.swift in Sources */,
 				2060F0362B580FF2006529DD /* AlertPresenter.swift in Sources */,
 				20C1FBCC2AF37FE200FD152E /* SceneDelegate.swift in Sources */,
+				20A2F5732B5A6DE700ADE31E /* ProfileModel.swift in Sources */,
 				2039C8F52B4EB4C5005E8210 /* UIBlockingProgressHUD.swift in Sources */,
 				2039C8F72B4FDB7C005E8210 /* ProfileService.swift in Sources */,
 				2039C8FD2B5582FE005E8210 /* ProfileImageModel.swift in Sources */,

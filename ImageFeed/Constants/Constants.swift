@@ -7,12 +7,14 @@
 
 import Foundation
 
-let AccessKey: String = "Jkio8U77xBQJsWuKUV9zmmf0fIJFtx6SWPOslmN5BMs"
-let SecretKey: String = "mRq-kMbndsBK35PrBqKMqD9ppazg1AtrFkdxsX2Hd8M"
-let RedirectURI: String = "urn:ietf:wg:oauth:2.0:oob"
-let AccessScope = "public+read_user+write_likes"
-let DefaultBaseURL = URL(string: "https://api.unsplash.com")!
-let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
-let profileURL = URL(string: "https://api.unsplash.com/me")!
+enum ApiConstants {
+    static let accessKey: String = "Jkio8U77xBQJsWuKUV9zmmf0fIJFtx6SWPOslmN5BMs"
+    static let secretKey: String = "mRq-kMbndsBK35PrBqKMqD9ppazg1AtrFkdxsX2Hd8M"
+    static let redirectURI: String = "urn:ietf:wg:oauth:2.0:oob"
+    static let accessScope = "public+read_user+write_likes"
+    static let defaultBaseURL = URL(string: "https://api.unsplash.com")!
+    static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+    static let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
+    static let profileURL = URL(string: "https://api.unsplash.com/me")!
+}
 

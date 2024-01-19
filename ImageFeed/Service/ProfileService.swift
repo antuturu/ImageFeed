@@ -15,26 +15,24 @@ final class ProfileService {
     static var profile: Profile?
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-        assert(Thread.isMainThread)
+        guard Thread.isMainThread else { return }
         if task != nil {
             return
         }
-        var request = URLRequest(url: profileURL)
+        var request = URLRequest(url: ApiConstants.profileURL)
         
         request.httpMethod = "GET"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.setValue("no-cache", forHTTPHeaderField: "Cache-Control")
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
-            switch result {
-            case .success(let profileResults):
-                let profileResult = Profile(profileResult: profileResults)
-                ProfileService.profile = profileResult
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profileResults):
+                    let profileResult = Profile(profileResult: profileResults)
+                    ProfileService.profile = profileResult
                     completion(.success(profileResult))
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
+                case .failure(let error):
                     completion(.failure(error))
                 }
             }

@@ -14,30 +14,27 @@ final class OAuth2Service {
     private var lastCode: String?
     
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        assert(Thread.isMainThread)
+        guard Thread.isMainThread else { return }
         if lastCode == code { return }
         task?.cancel()
         lastCode = code
-        var request = URLRequest(url: tokenURL)
+        var request = URLRequest(url: ApiConstants.tokenURL)
         request.httpMethod = "POST"
         let parameters = [
-            "client_id": AccessKey,
-            "client_secret": SecretKey,
-            "redirect_uri": RedirectURI,
+            "client_id": ApiConstants.accessKey,
+            "client_secret": ApiConstants.secretKey,
+            "redirect_uri": ApiConstants.redirectURI,
             "code": code,
             "grant_type": "authorization_code"]
         
         request.httpBody = parameters.map { "\($0.key)=\($0.value)" }.joined(separator: "&").data(using: .utf8)
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuth2ResponceModel, Error>) in
-            switch result {
-            case .success(let tokenResults):
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let tokenResults):
                     completion(.success(tokenResults.access_token))
-                }
-                print(tokenResults.access_token)
-            case .failure(let error):
-                DispatchQueue.main.async {
+                case .failure(let error):
                     completion(.failure(error))
                 }
             }

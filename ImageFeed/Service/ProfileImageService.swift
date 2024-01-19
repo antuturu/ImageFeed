@@ -15,10 +15,10 @@ final class ProfileImageService {
     
     static var profileImage: String?
     static let shared = ProfileImageService()
-    static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
-        assert(Thread.isMainThread)
+        guard Thread.isMainThread else { return }
         if task != nil {
             return
         }
@@ -32,20 +32,18 @@ final class ProfileImageService {
         request.setValue("no-cache", forHTTPHeaderField: "Cache-Control")
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
-            switch result {
-            case .success(let profileResponce):
-                let profileImageURL = profileResponce.profile_image.small
-                ProfileImageService.profileImage = profileImageURL
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profileResponce):
+                    let profileImageURL = profileResponce.profileImage.small
+                    ProfileImageService.profileImage = profileImageURL
                     completion(.success(profileImageURL))
                     NotificationCenter.default
                         .post(
-                            name: ProfileImageService.DidChangeNotification,
+                            name: ProfileImageService.didChangeNotification,
                             object: self,
                             userInfo: ["URL": profileImageURL])
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
+                case .failure(let error):
                     completion(.failure(error))
                 }
             }

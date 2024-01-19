@@ -8,10 +8,10 @@
 import Foundation
 
 struct OAuth2ResponceModel: Decodable {
-    var access_token: String
-    var token_type: String
-    var scope: String
-    var created_at: Int
+    let access_token: String
+    let token_type: String
+    let scope: String
+    let created_at: Int
     
     private enum CodingKeys : String, CodingKey {
         case access_token

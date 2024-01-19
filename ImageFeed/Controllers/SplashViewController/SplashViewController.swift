@@ -12,7 +12,7 @@ import SwiftKeychainWrapper
 final class SplashViewController: UIViewController {
     static var codeError: Error?
     
-    private let ShowAuthScreenSegueIdentifier = "showAuthView"
+    private let showAuthScreenSegueIdentifier = "showAuthView"
     private let profileService = ProfileService()
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
@@ -23,6 +23,11 @@ final class SplashViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    private let alertModel = AlertModel(
+        title: "Что-то пошло не так",
+        message: "Не удалось войти в систему",
+        buttonText: "Ок"
+    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +36,7 @@ final class SplashViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated) 
+        super.viewDidAppear(animated)
         if let token = oauth2TokenStorage.token {
             fetchProfile(token: token)
         } else {
@@ -61,9 +66,9 @@ extension SplashViewController {
         guard let authViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
             return
         }
-            authViewController.delegate = self
-            authViewController.modalPresentationStyle = .fullScreen
-            present(authViewController, animated: true, completion: nil)
+        authViewController.delegate = self
+        authViewController.modalPresentationStyle = .fullScreen
+        present(authViewController, animated: true, completion: nil)
     }
 }
 
@@ -80,19 +85,16 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchOAuthToken(_ code: String) {
-        let oauth2Service = OAuth2Service()
-        let token = OAuth2TokenStorage()
         oauth2Service.fetchAuthToken(code: code) { [weak self] result in
             guard let self = self else {
                 return
             }
             switch result {
             case .success(let bearerToken):
-                token.token = bearerToken
+                self.oauth2TokenStorage.token = bearerToken
                 self.fetchProfile(token: bearerToken)
             case .failure(let error):
                 SplashViewController.codeError = error
-                print("Error fetching Bearer Token: \(error)")
                 UIBlockingProgressHUD.dismiss()
             }
             
@@ -107,7 +109,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self?.switchToTabBarController()
             case .failure(let error):
                 SplashViewController.codeError = error
-                print("Error fetching Profile: \(error)")
             }
             UIBlockingProgressHUD.dismiss()
         }

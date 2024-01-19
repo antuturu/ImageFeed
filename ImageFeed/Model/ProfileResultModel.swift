@@ -8,10 +8,10 @@
 import Foundation
 
 struct ProfileResult: Codable {
-    var username: String
-    var firstName: String
-    var lastName: String
-    var bio: String?
+    let username: String
+    let firstName: String
+    let lastName: String
+    let bio: String?
     
     
     private enum CodingKeys : String, CodingKey {
@@ -22,18 +22,3 @@ struct ProfileResult: Codable {
     }
 }
 
-
-
-struct Profile: Equatable {
-    var username: String
-    var name: String
-    var loginName: String
-    var bio: String
-    
-    init(profileResult: ProfileResult) {
-        self.username = profileResult.username
-        self.name = "\(profileResult.firstName) \(profileResult.lastName)"
-        self.loginName = "@\(profileResult.username)"
-        self.bio = profileResult.bio ?? ""
-    }
-}

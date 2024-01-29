@@ -31,7 +31,7 @@
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="xjB-La-2Hm">
                                                     <rect key="frame" x="16" y="4" width="361" height="224"/>
-                                                    <color key="backgroundColor" name="YP Black"/>
+                                                    <color key="backgroundColor" name="YP Gray"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                             <integer key="value" value="16"/>
@@ -45,10 +45,12 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3v-Dj-MUk" userLabel="likeButton">
-                                                    <rect key="frame" x="323" y="4" width="54" height="41.333333333333336"/>
+                                                    <rect key="frame" x="333" y="4" width="44" height="44"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="likeButtonOn"/>
-                                                    <buttonConfiguration key="configuration" style="plain" image="likeButtonOn"/>
+                                                    <connections>
+                                                        <action selector="likeButtonClicked:" destination="uQZ-oF-QFL" eventType="touchUpInside" id="aj8-py-sjt"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -99,7 +101,6 @@
         <!--Tab Bar Controller-->
         <scene sceneID="20d-kO-o6D">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="r5g-Au-MUQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tabBarController storyboardIdentifier="TabBarViewController" id="oiM-wX-sWO" customClass="TabBarController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="iDr-UO-CMH"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="47m-9c-Crg">
@@ -112,6 +113,7 @@
                         </tabBarAppearance>
                     </tabBar>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r5g-Au-MUQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-443.51145038167937" y="-1356.3380281690143"/>
         </scene>
@@ -322,7 +324,7 @@
     <resources>
         <image name="0" width="200" height="132"/>
         <image name="Sharing" width="50" height="50"/>
-        <image name="likeButtonOn" width="30" height="27.333333969116211"/>
+        <image name="likeButtonOn" width="44" height="44"/>
         <image name="logoUnsplash" width="60" height="60"/>
         <image name="nav_back_button" width="9" height="16"/>
         <image name="nav_bar_back" width="130" height="42"/>
@@ -332,6 +334,9 @@
         </namedColor>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="YP Gray">
+            <color red="0.68199998140335083" green="0.68599998950958252" blue="0.70599997043609619" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

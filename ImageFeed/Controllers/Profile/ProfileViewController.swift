@@ -9,13 +9,14 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    
+    private let token = OAuth2TokenStorage.shared
     private var profileImageServiceObserver: NSObjectProtocol?
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
         let profileImage = UIImage(named: "mockPhotoProfile")
         imageView.image = profileImage
+        imageView.backgroundColor = UIColor(named: "YP Black")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -51,9 +52,14 @@ final class ProfileViewController: UIViewController {
         let imageButton = UIImage(named: "Exit")
         button.setImage(imageButton, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         return button
     }()
     let Colortext = UIColor(named: "YP White")
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,7 +85,7 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = ProfileImageService.profileImage,
             let url = URL(string: profileImageURL)
         else { return }
-        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        let processor = RoundCornerImageProcessor(cornerRadius: 30)
         imageView.kf.setImage(with: url, options: [.processor(processor)]) {result in
             switch result {
             case .success(let value):
@@ -121,6 +127,30 @@ final class ProfileViewController: UIViewController {
         nameLabel.text = profile.name
         loginLabel.text = profile.loginName
         aboutLabel.text = profile.bio
+    }
+    
+}
+
+extension ProfileViewController {
+    @objc func buttonTapped() {
+        let alert = UIAlertController(title: "Пока, пока!", message: "Уверены, что хотите выйти?", preferredStyle: .alert)
+        
+        let acceptAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            token.clean()
+            guard let window = UIApplication.shared.windows.first else { return }
+            window.rootViewController = SplashViewController()
+            window.makeKeyAndVisible()
+        }
+        
+        let deleteAction = UIAlertAction(title: "Нет", style: .default) { _ in
+            alert.dismiss(animated: true)
+        }
+        
+        alert.addAction(acceptAction)
+        alert.addAction(deleteAction)
+        self.present(alert, animated: true)
+        
     }
     
 }

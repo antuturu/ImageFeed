@@ -11,8 +11,8 @@ struct PhotoResult: Codable {
     let id: String
     let width: CGFloat
     let height: CGFloat
-    let createdAt: String
-    let welcomeDescription: String
+    let createdAt: String?
+    let welcomeDescription: String?
     let urls: UrlResult
     let isLiked: Bool
     
@@ -25,4 +25,8 @@ struct PhotoResult: Codable {
         case urls = "urls"
         case isLiked = "liked_by_user"
     }
+}
+
+struct LikePhotoResult: Decodable {
+    let photo: PhotoResult?
 }

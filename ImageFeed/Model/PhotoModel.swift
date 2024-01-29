@@ -17,14 +17,17 @@ struct Photo {
     let largeImageURL: String
     let isLiked: Bool
     
+}
+extension Photo {
     init(result photo: PhotoResult) {
-        id =  photo.id
-        width =  CGFloat(photo.width)
-        height = CGFloat(photo.height)
-        createdAt = dateTimeDefaultFormatter.date(from: photo.createdAt)
-        welcomeDescription = photo.welcomeDescription
-        thumbImageURL = photo.urls.thumbImageURL
-        largeImageURL = photo.urls.largeImageURL
-        isLiked = photo.isLiked
+        self.init(id: photo.id,
+                  width: CGFloat(photo.width),
+                  height: CGFloat(photo.height),
+                  createdAt: DateFormatters.shared.iso8601DateFormatter.date(from: photo.createdAt ?? ""),
+                  welcomeDescription: photo.welcomeDescription,
+                  thumbImageURL: photo.urls.thumbImageURL,
+                  largeImageURL: photo.urls.largeImageURL,
+                  isLiked: photo.isLiked)
+        
     }
 }

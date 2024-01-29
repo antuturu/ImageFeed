@@ -7,13 +7,16 @@
 
 import Foundation
 
-let dateTimeDefaultFormatter: DateFormatter = {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "dd.MM.YY"
-    return dateFormatter
-}()
-
-extension Date {
-    var dateTimeString: String { dateTimeDefaultFormatter.string(from: self) }
+final class DateFormatters {
+    static let shared = DateFormatters()
+    
+    let iso8601DateFormatter: ISO8601DateFormatter
+    let dateFormatter: DateFormatter
+    private init() {
+        iso8601DateFormatter = ISO8601DateFormatter()
+        dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+    }
 }
 

@@ -13,19 +13,12 @@ protocol AuthViewControllerDelegate: AnyObject {
 
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
-    private let alertModel = AlertModel(
-        title: "Что-то пошло не так",
-        message: "Не удалось войти в систему",
-        buttonText: "Ок"
-    )
     
     weak var delegate: AuthViewControllerDelegate?
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if SplashViewController.codeError != nil{
-            AlertPresenter.presentAlert(with: alertModel, from: self)
-        }
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

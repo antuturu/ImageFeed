@@ -11,7 +11,7 @@ class ImagesListViewController: UIViewController {
     
     @IBOutlet private var tableView: UITableView!
     
-    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
+    private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private let imagesListService = ImagesListService.shared
     private let dateFormatter = DateFormatters.shared.dateFormatter
     private let alertModel = AlertModel(
@@ -43,10 +43,10 @@ class ImagesListViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowSingleImageSegueIdentifier {
-            let viewController = segue.destination as! SingleImageViewController
+        if segue.identifier == showSingleImageSegueIdentifier {
+            let viewController = segue.destination as? SingleImageViewController
             let indexPath = sender as? IndexPath
-            guard let indexPath = indexPath else {
+            guard let indexPath = indexPath, let viewController = viewController else {
                 return
             }
             let photo = photos[indexPath.row]
@@ -154,7 +154,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
 extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
+        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

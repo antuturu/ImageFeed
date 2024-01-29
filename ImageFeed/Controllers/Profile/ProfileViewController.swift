@@ -17,6 +17,7 @@ final class ProfileViewController: UIViewController {
         let profileImage = UIImage(named: "mockPhotoProfile")
         imageView.image = profileImage
         imageView.backgroundColor = UIColor(named: "YP Black")
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -86,15 +87,12 @@ final class ProfileViewController: UIViewController {
             let url = URL(string: profileImageURL)
         else { return }
         let processor = RoundCornerImageProcessor(cornerRadius: 30)
-        imageView.kf.setImage(with: url, options: [.processor(processor)]) {result in
-            switch result {
-            case .success(let value):
-                self.imageView.image = value.image
-                
-            case .failure(_):
-                print("failure")
-            }
-        }
+        imageView.kf.setImage(with: url, options: [
+            .processor(processor),
+            .cacheSerializer(FormatIndicatedCacheSerializer.png)
+        ])
+        imageView.clipsToBounds = true
+        
     }
     
     private func configureSubviews(){

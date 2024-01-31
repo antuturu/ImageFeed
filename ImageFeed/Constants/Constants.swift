@@ -16,5 +16,6 @@ enum ApiConstants {
     static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     static let tokenURL = URL(string: "https://unsplash.com/oauth/token")!
     static let profileURL = URL(string: "https://api.unsplash.com/me")!
+    static let photosURL = URL(string: "https://api.unsplash.com/photos")!
 }
 

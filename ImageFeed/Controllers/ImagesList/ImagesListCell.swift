@@ -7,9 +7,28 @@
 
 import UIKit
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
+
 final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
+    weak var delegate: ImagesListCellDelegate?
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var imageCell: UIImageView!
+    
+    @IBAction func likeButtonClicked(_ sender: Any) {
+        delegate?.imageListCellDidTapLike(self)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageCell.kf.cancelDownloadTask()
+    }
+    
+    public func setIsLiked(isLiked: Bool) {
+        let like = isLiked ? UIImage(named: "likeButtonOn"): UIImage(named: "likeButtonOff")
+        likeButton.setImage(like, for: .normal)
+    }
 }

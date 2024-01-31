@@ -7,8 +7,11 @@
 
 import Foundation
 import SwiftKeychainWrapper
+import WebKit
 
-class OAuth2TokenStorage {
+final class OAuth2TokenStorage {
+    static let shared = OAuth2TokenStorage()
+    
     var token: String? {
         get {
             return KeychainWrapper.standard.string(forKey: "BearerToken")
@@ -23,4 +26,16 @@ class OAuth2TokenStorage {
             }
         }
     }
+    
+    func clean() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
+        }
+        KeychainWrapper.standard.removeObject(forKey: "BearerToken")
+    }
+    
 }

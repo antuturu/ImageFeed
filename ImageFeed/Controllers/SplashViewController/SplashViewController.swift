@@ -23,11 +23,6 @@ final class SplashViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    private let alertModel = AlertModel(
-        title: "Что-то пошло не так",
-        message: "Не удалось войти в систему",
-        buttonText: "Ок"
-    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +32,7 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        guard UIBlockingProgressHUD.isShowing == false else { return }
         if let token = oauth2TokenStorage.token {
             fetchProfile(token: token)
         } else {
@@ -70,6 +66,20 @@ extension SplashViewController {
         authViewController.modalPresentationStyle = .fullScreen
         present(authViewController, animated: true, completion: nil)
     }
+    
+    private func showAlert() {
+        let alert = UIAlertController(title: "Что-то пошло не так", message: "Не удалось войти в систему", preferredStyle: .alert)
+        
+        let acceptAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            showAuthenticationScreen()
+        }
+    
+        
+        alert.addAction(acceptAction)
+        self.present(alert, animated: true)
+        
+    }
 }
 
 // MARK: - AuthViewControllerDelegate
@@ -94,6 +104,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.oauth2TokenStorage.token = bearerToken
                 self.fetchProfile(token: bearerToken)
             case .failure(let error):
+                showAlert()
                 SplashViewController.codeError = error
                 UIBlockingProgressHUD.dismiss()
             }

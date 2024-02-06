@@ -15,13 +15,15 @@ public protocol ImagesListControllerProtocol: AnyObject {
 }
 
 class ImagesListViewController: UIViewController & ImagesListControllerProtocol{
+    var presenter: ImageListPresenterProtocol? = ImagesListPresenter()
+    private var photos: [Photo] = []
     
     @IBOutlet var tableView: UITableView!
-    var photos: [Photo] = []
+    
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private let imagesListService = ImagesListService.shared
     private var imagesListServiceObserver: NSObjectProtocol?
-    var presenter: ImageListPresenterProtocol? = ImagesListPresenter()
+    
     private let alertModel = AlertModel(
         title: "Что-то пошло не так(",
         message: "Не удалось поставить лайк",

@@ -15,11 +15,11 @@ public protocol ImageListPresenterProtocol {
 }
 
 final class ImagesListPresenter: ImageListPresenterProtocol {
+    var view: ImagesListControllerProtocol?
     
     private let dateFormatter = DateFormatters.shared.dateFormatter
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private let imagesListService = ImagesListService.shared
-    var view: ImagesListControllerProtocol?
     
     func viewDidLoad() {
         imagesListService.fetchPhotosNextPage()

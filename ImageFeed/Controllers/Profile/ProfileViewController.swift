@@ -19,10 +19,7 @@ public protocol ProfileViewControllerProtocol: AnyObject {
 
 final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     
-    private let token = OAuth2TokenStorage.shared
-    private var profileImageServiceObserver: NSObjectProtocol?
     var presenter: ProfileViewPresenterProtocol!
-    
     let imageView: UIImageView = {
         let imageView = UIImageView()
         let profileImage = UIImage(named: "mockPhotoProfile")
@@ -69,6 +66,9 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         return button
     }()
     let Colortext = UIColor(named: "YP White")
+    
+    private let token = OAuth2TokenStorage.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent

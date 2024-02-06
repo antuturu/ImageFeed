@@ -8,9 +8,20 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewPresenterProtocol! { get set }
+    func configureSubviews()
+    func configureConstraints()
+    func updateProfileDetails(_ profile: Profile)
+    func updateAvatar()
+    func configure(_ presenter: ProfileViewPresenterProtocol)
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+    
     private let token = OAuth2TokenStorage.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    var presenter: ProfileViewPresenterProtocol!
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -64,24 +75,10 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureSubviews()
-        configureConstraints()
-        if let profile = ProfileService.profile {
-            updateProfileDetails(profile)
-        }
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
-        updateAvatar()
+        presenter?.viewDidLoad()
     }
     
-    private func updateAvatar() {
+    func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.profileImage,
             let url = URL(string: profileImageURL)
@@ -95,7 +92,7 @@ final class ProfileViewController: UIViewController {
         
     }
     
-    private func configureSubviews(){
+    func configureSubviews(){
         view.addSubview(imageView)
         view.addSubview(nameLabel)
         view.addSubview(loginLabel)
@@ -104,7 +101,7 @@ final class ProfileViewController: UIViewController {
         view.backgroundColor = UIColor(named: "YP Black")
     }
     
-    private func configureConstraints(){
+    func configureConstraints(){
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
@@ -121,34 +118,25 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-    private func updateProfileDetails(_ profile: Profile){
+    func updateProfileDetails(_ profile: Profile){
         nameLabel.text = profile.name
         loginLabel.text = profile.loginName
         aboutLabel.text = profile.bio
+    }
+    
+    func configure(_ presenter: ProfileViewPresenterProtocol) {
+        self.presenter = presenter
+        self.presenter.view = self
     }
     
 }
 
 extension ProfileViewController {
     @objc func buttonTapped() {
-        let alert = UIAlertController(title: "Пока, пока!", message: "Уверены, что хотите выйти?", preferredStyle: .alert)
-        
-        let acceptAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            token.clean()
-            guard let window = UIApplication.shared.windows.first else { return }
-            window.rootViewController = SplashViewController()
-            window.makeKeyAndVisible()
-        }
-        
-        let deleteAction = UIAlertAction(title: "Нет", style: .default) { _ in
-            alert.dismiss(animated: true)
-        }
-        
-        alert.addAction(acceptAction)
-        alert.addAction(deleteAction)
+        let alert = presenter?.logoutButtonTapped()
+        guard let alert = alert else { return }
         self.present(alert, animated: true)
-        
     }
     
 }
+

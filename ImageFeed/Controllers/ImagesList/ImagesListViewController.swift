@@ -7,27 +7,33 @@
 
 import UIKit
 
-class ImagesListViewController: UIViewController {
+public protocol ImagesListControllerProtocol: AnyObject {
+    var presenter: ImageListPresenterProtocol? { get set }
+    var tableView: UITableView! { get set }
+    func pictureGradient (tablesView: UIImageView, heightForRowAt indexPath: IndexPath)
+    func updateTableViewAnimated()
+}
+
+class ImagesListViewController: UIViewController & ImagesListControllerProtocol{
     
-    @IBOutlet private var tableView: UITableView!
-    
+    @IBOutlet var tableView: UITableView!
+    var photos: [Photo] = []
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private let imagesListService = ImagesListService.shared
-    private let dateFormatter = DateFormatters.shared.dateFormatter
+    private var imagesListServiceObserver: NSObjectProtocol?
+    var presenter: ImageListPresenterProtocol? = ImagesListPresenter()
     private let alertModel = AlertModel(
         title: "Что-то пошло не так(",
         message: "Не удалось поставить лайк",
         buttonText: "Ок"
     )
-    private var photos: [Photo] = []
-    private var imagesListServiceObserver: NSObjectProtocol?
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter?.viewDidLoad()
         imagesListServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ImagesListService.didChangeNotification,
@@ -37,49 +43,20 @@ class ImagesListViewController: UIViewController {
                 guard let self = self else { return }
                 self.updateTableViewAnimated()
             }
-        imagesListService.fetchPhotosNextPage()
-        
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showSingleImageSegueIdentifier {
-            let viewController = segue.destination as? SingleImageViewController
-            let indexPath = sender as? IndexPath
-            guard let indexPath = indexPath, let viewController = viewController else {
-                return
-            }
-            let photo = photos[indexPath.row]
-            let image = URL(string: photo.largeImageURL)
-            viewController.image = image
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-        
+        presenter?.prepare(for: segue, sender: sender, photos: photos)
     }
     
     
-    
-    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        let imageUrl = URL(string: photos[indexPath.row].thumbImageURL)
-        let placeholder = UIImage(named: "placeHolder")
-        cell.imageCell.kf.setImage(with: imageUrl, placeholder: placeholder) { [weak self] _ in
-            guard let self = self else { return }
-            self.tableView.reloadRows(at: [indexPath], with: .automatic)
-            cell.imageCell.kf.indicatorType = .none
-        }
-        
-        let like = photos[indexPath.row].isLiked ? UIImage(named: "likeButtonOn"): UIImage(named: "likeButtonOff")
-        
-        if let date = photos[indexPath.row].createdAt {
-            cell.dateLabel.text = dateFormatter.string(from: date as Date).replacingOccurrences(of: "r.", with: "")
-        }
-        cell.likeButton.setImage(like, for: .normal)
-        
-        pictureGradient(tablesView: cell.imageCell, heightForRowAt: indexPath)
+    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+        presenter?.configCell(for: cell, with: indexPath, photos: photos)
     }
     
-    private func pictureGradient (tablesView: UIImageView, heightForRowAt indexPath: IndexPath){
+    
+    func pictureGradient (tablesView: UIImageView, heightForRowAt indexPath: IndexPath){
         let cellHeight = tableView(tableView, heightForRowAt: indexPath)
         let lightBlue = UIColor.clear
         let blue = UIColor.black
@@ -122,7 +99,6 @@ extension ImagesListViewController: UITableViewDataSource {
             imagesListService.fetchPhotosNextPage()
         }
     }
-    
 }
 
 // MARK: - ImagesListCellDelegate
@@ -132,18 +108,20 @@ extension ImagesListViewController: ImagesListCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
         UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id, isLike: photo.isLiked) {[weak self] result in
+        
+        imagesListService.changeLike(photoId: photo.id, isLike: photo.isLiked) { [weak self] result in
             guard let self = self else { return }
+            
             switch result {
             case .success:
                 self.photos = self.imagesListService.photos
                 cell.setIsLiked(isLiked: self.photos[indexPath.row].isLiked)
                 UIBlockingProgressHUD.dismiss()
+                
             case .failure(let error):
                 print(error)
                 AlertPresenter.presentAlert(with: self.alertModel, from: self)
                 UIBlockingProgressHUD.dismiss()
-                
             }
         }
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Profile: Equatable {
+public struct Profile: Equatable {
     let username: String
     let name: String
     let loginName: String

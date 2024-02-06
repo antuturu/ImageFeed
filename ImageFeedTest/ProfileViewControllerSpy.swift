@@ -29,7 +29,7 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
     }
     
     func updateAvatar() {
-       
+        
     }
     
     func configure(_ presenter: ProfileViewPresenterProtocol) {

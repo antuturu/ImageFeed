@@ -18,7 +18,7 @@ final class ImagesListControllerSpy: ImagesListControllerProtocol {
     func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         prepareCall = true
     }
-        
+    
     func pictureGradient(tablesView: UIImageView, heightForRowAt indexPath: IndexPath) {
         gradientCall = true
     }

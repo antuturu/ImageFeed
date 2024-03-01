@@ -8,9 +8,9 @@
 import Foundation
 
 enum ApiConstants {
-    static let accessKey: String = "Jkio8U77xBQJsWuKUV9zmmf0fIJFtx6SWPOslmN5BMs"
-    static let secretKey: String = "mRq-kMbndsBK35PrBqKMqD9ppazg1AtrFkdxsX2Hd8M"
-    static let redirectURI: String = "urn:ietf:wg:oauth:2.0:oob"
+    static let accessKey: String = ""
+    static let secretKey: String = ""
+    static let redirectURI: String = ""
     static let accessScope = "public+read_user+write_likes"
     static let defaultBaseURL = URL(string: "https://api.unsplash.com")!
     static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"

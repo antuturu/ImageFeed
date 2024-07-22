@@ -1,4 +1,10 @@
 # **ImageFeed**
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/5caaadea-3d43-4ea3-8d2c-059ff5994811" alt="Фото 1"></td>
+    <td><img src="https://github.com/user-attachments/assets/fb06e6c6-33c8-4a76-aca6-faeae7f85ba3" alt="Фото 2"></td>
+  </tr>
+</table>
 # Ссылки
 
 -   [Дизайн в Figma](https://clck.ru/38ddGT)
